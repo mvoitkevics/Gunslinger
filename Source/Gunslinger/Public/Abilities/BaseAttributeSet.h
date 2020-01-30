@@ -94,6 +94,21 @@ public:
 		FGameplayAttributeData Range;
 	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, Range)
 
+	/** Range % */
+	UPROPERTY(BlueprintReadOnly, Category = "Damage", ReplicatedUsing = OnRep_PoisonDamage)
+		FGameplayAttributeData PoisonDamage;
+	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, PoisonDamage)
+
+	/** Range % */
+	UPROPERTY(BlueprintReadOnly, Category = "Damage", ReplicatedUsing = OnRep_BurnDamage)
+		FGameplayAttributeData BurnDamage;
+	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, BurnDamage)
+
+	/** Range % */
+	UPROPERTY(BlueprintReadOnly, Category = "Damage", ReplicatedUsing = OnRep_ElectricDamage)
+		FGameplayAttributeData ElectricDamage;
+	ATTRIBUTE_ACCESSORS(UBaseAttributeSet, ElectricDamage)
+
 	/** Level During Runs */
 	UPROPERTY(BlueprintReadOnly, Category = "Level", ReplicatedUsing = OnRep_CharacterLevel)
 		FGameplayAttributeData CharacterLevel;
@@ -153,6 +168,15 @@ protected:
 
 	UFUNCTION()
 		virtual void OnRep_Range();
+
+	UFUNCTION()
+		virtual void OnRep_PoisonDamage();
+
+	UFUNCTION()
+		virtual void OnRep_BurnDamage();
+
+	UFUNCTION()
+		virtual void OnRep_ElectricDamage();
 
 	UFUNCTION()
 		virtual void OnRep_CharacterLevel();

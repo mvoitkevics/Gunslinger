@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "AbilitySystemGlobals.h"
 #include "DamageIndicator.generated.h"
 
 class UDamageWidgetComponent;
@@ -22,7 +23,7 @@ public:
 		float DamageReceived = 0;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Damage)
-		uint8 bIsCriticalDamage : 1;
+		FGameplayTagContainer DamageTags;
 
 protected:
 	// Called when the game starts or when spawned

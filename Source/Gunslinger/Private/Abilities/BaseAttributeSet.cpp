@@ -20,6 +20,8 @@ UBaseAttributeSet::UBaseAttributeSet()
 	, XP(0.0f)
 	, Gold(0.0f)
 	, Range(700.0f)
+	, PoisonDamage(.33f)
+	, BurnDamage(.5f)
 	, CharacterLevel(1)
 	, CharacterLevelPersistent(1)
 	, Damage(0.0f)
@@ -43,6 +45,9 @@ void UBaseAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME(UBaseAttributeSet, XP);
 	DOREPLIFETIME(UBaseAttributeSet, Gold);
 	DOREPLIFETIME(UBaseAttributeSet, Range);
+	DOREPLIFETIME(UBaseAttributeSet, PoisonDamage);
+	DOREPLIFETIME(UBaseAttributeSet, BurnDamage);
+	DOREPLIFETIME(UBaseAttributeSet, ElectricDamage);
 	DOREPLIFETIME(UBaseAttributeSet, CharacterLevel);
 	DOREPLIFETIME(UBaseAttributeSet, CharacterLevelPersistent);
 
@@ -110,6 +115,24 @@ void UBaseAttributeSet::OnRep_Gold()
 void UBaseAttributeSet::OnRep_Range()
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UBaseAttributeSet, Range);
+}
+
+
+void UBaseAttributeSet::OnRep_PoisonDamage()
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UBaseAttributeSet, PoisonDamage);
+}
+
+
+void UBaseAttributeSet::OnRep_BurnDamage()
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UBaseAttributeSet, BurnDamage);
+}
+
+
+void UBaseAttributeSet::OnRep_ElectricDamage()
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UBaseAttributeSet, ElectricDamage);
 }
 
 void UBaseAttributeSet::OnRep_CharacterLevel()
@@ -225,7 +248,7 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		const float LocalDamageDone = GetDamage();
 		SetDamage(0.f);
 
-		if (LocalDamageDone > 0)
+		if (LocalDamageDone != 0.0f)
 		{
 			// Apply the health change and then clamp it
 			const float OldHealth = GetHealth();
@@ -249,7 +272,6 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 		if (TargetCharacter)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Health changed: %f"), DeltaValue);
 			// Call for all health changes
 			TargetCharacter->HandleHealthChanged(DeltaValue, SourceTags);
 		}
@@ -258,17 +280,5 @@ void UBaseAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		// DO Upgrade Stuff
 	}
-	//else if (Data.EvaluatedData.Attribute == GetRangeAttribute())
-	//{
-	//	// Clamp mana
-	//	SetRange(FMath::Clamp(DeltaValue, 0.0f, 3.0f));
-	//}
-	//else if (Data.EvaluatedData.Attribute == GetMoveSpeedAttribute())
-	//{
-	//	if (TargetCharacter)
-	//	{
-	//		// Call for all movespeed changes
-	//		// TargetCharacter->HandleMoveSpeedChanged(DeltaValue, SourceTags);
-	//	}
-	//}
+
 }

@@ -132,10 +132,7 @@ void ACharacterBase::HandleDamage(float DamageAmount, const FHitResult& HitInfo,
 		ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn);
 
 	DeferredChild->DamageReceived = DamageAmount;
-
-	// pass tags, to understand what was the damage type
-	DeferredChild->bIsCriticalDamage = false;
-
+	DeferredChild->DamageTags = DamageTags;
 
 	UGameplayStatics::FinishSpawningActor(DeferredChild, NewTransform);
 
